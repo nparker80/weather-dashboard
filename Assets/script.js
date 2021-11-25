@@ -45,8 +45,36 @@ function getApi() {
 let displayWeather = function (weather, searchCity) {
   currentWeatherContainer.textContent = "";
   citySearchForm.textContent = searchCity;
-};
 
-// call API
-// fetch API
-// JSON response
+  let currentDate = document.createElement("span");
+  currentDate.textContent =
+    "(" + moment(weather.dt.value).format("MMM D, YYYY") + ")";
+  citySearchForm.appendChild(currentDate);
+
+  let weatherIcon = document.createElement("img");
+  weatherIcon.setAttribute(
+    "src",
+    "https://openweathermap.org/img/wn/${weather.weather[0].icon}@2x.pmg"
+  );
+  citySearchForm.appendChild(weatherIcon);
+
+  let temperature = document.createElement("span");
+  temperate.textContent = "Temperature: " + weather.main.temp + " °F";
+  temperature.classList = "list-group";
+
+  let humidity = document.createElement("span");
+  humidity.textContent = "Humidity: " + weather.main.humidity + " %";
+  humidity.classList = "list-group";
+
+  let windSpeed = document.createElement("span");
+  windSpeed.textContent = "Wind Speed: " + weather.wind.speed + " MPH";
+  windSpeed.classList = "list-group";
+
+  currentWeatherContainer.appendChild(temperature);
+  currentWeatherContainer.appendChild(humidity);
+  currentWeatherContainer.appendChild(windSpeed);
+
+  const lat = weather.coord.lat;
+  const lon = weather.coord.lon;
+  getUvIndex(lat, lon);
+};
