@@ -1,80 +1,64 @@
-let cities = [];
+const apiKey = "&appid=99bddfe7b8090841d791ec8882c057c0";
 
-const citySearchForm = document.querySelector("#input-form");
-const cityInput = document.querySelector("#city");
-const currentWeatherContainer = document.querySelector("#search-container");
-const searchedCity = document.querySelector("#searched-city");
-const forecast = document.querySelector("#forecast");
-const fiveDayContainer = document.querySelector("#five-day-container");
-const previousCitySearch = document.querySelector(
-  "#previous-city-search-button"
-);
+let searchHistoryCities=[];
+let curretnDay=moment().format("L");
 
-let formSubmit = function (event) {
-  event.preventDefault();
-  let city = cityInput.value.trim();
+function currentWeather(city) {
+  const queryUrl ="https://api.openweathermap.org/data/2.5/weather?q=${city}&units=imperial&appid=${apiKey}";
+  
+  $.ajax({
+    url: queryUrl,
+    method: "GET",
+  }).then(function (citySearchWeatherResponse) {
+    console.log(citySearchWeatherResponse);
 
-  if (city) {
-    getCityWeather(city);
-    getFiveDayForecast(city);
-    cities.unshift({ city });
-    cityInput.value = "";
-  } else {
-    alert("Please Enter a City Name");
-  }
+    $("#currentWeather").css("display","block");
+    $("#cityWeatherDetail").empty();
 
-  citySearchForm.addEventListener("submit", formSubmit);
-};
+    let weatherIcon=citySearchWeatherResponse.weather[0].icon;
+    let iconURL="https://openweathermap.org/img/w/${weatherIcon}.png";
 
-let saveSearch = function () {
-  localStorage.setItem("cities", JSON.stringify(cities));
-};
+    let currentCity = $(`
+      <h2 id="currentCity">
+          ${cityWeatherResponse.name} ${today} <img src="${iconURL}" alt="${cityWeatherResponse.weather[0].description}" />
+      </h2>
+      <p>Temperature: ${cityWeatherResponse.main.temp} °F</p>
+      <p>Humidity: ${cityWeatherResponse.main.humidity}\%</p>
+      <p>Wind Speed: ${cityWeatherResponse.wind.speed} MPH</p>
+    `);
 
-function getApi() {
-  const apiURL =
-    "https://api.openweathermap.org/data/2.5/weather?q=${city}&units=impreial&appid=${apiKey}";
-  const apiKey = "fca898804db55b003fe45d3544a59034";
+    $("#cityWeatherDetail").append(currentCity);
 
-  fetch(apiURL).then(function (response) {
-    response.json().then(function (data) {
-      displayWeather(city, data);
-    });
-  });
-}
+    let latitude = cityWeatherResponse.coord.lat;
+    let longitude = cityWeatherResponse.coor.lon;
+    let uviQueryURL="https://api.openweathermap.org/data/2.5/uvi?lat=${latitude}&lon=${longitude}&appid=${apiKey}";
 
-let displayWeather = function (weather, searchCity) {
-  currentWeatherContainer.textContent = "";
-  citySearchForm.textContent = searchCity;
+    $.ajax({
+      url: uviQueryURL,
+      method:"GET"
+    }).then(function(uviResponse){
+      
+      let uvIndex=uviresponse.value;
+      let uvIndexP=$(`<p>UV Index:
+      <span id="uvIndexColor" class="px-2 py-2 rounded">${uvIndex}</span>
+      </p>`)
+      `);
 
-  let currentDate = document.createElement("span");
-  currentDate.textContent =
-    "(" + moment(weather.dt.value).format("MMM D, YYYY") + ")";
-  citySearchForm.appendChild(currentDate);
+//       $("#cityWeatherDetail").append(uvIndexP);
 
-  let weatherIcon = document.createElement("img");
-  weatherIcon.setAttribute(
-    "src",
-    "https://openweathermap.org/img/wn/${weather.weather[0].icon}@2x.pmg"
-  );
-  citySearchForm.appendChild(weatherIcon);
+//       futureCondition(lat,lon);
 
-  let temperature = document.createElement("span");
-  temperate.textContent = "Temperature: " + weather.main.temp + " °F";
-  temperature.classList = "list-group";
-
-  let humidity = document.createElement("span");
-  humidity.textContent = "Humidity: " + weather.main.humidity + " %";
-  humidity.classList = "list-group";
-
-  let windSpeed = document.createElement("span");
-  windSpeed.textContent = "Wind Speed: " + weather.wind.speed + " MPH";
-  windSpeed.classList = "list-group";
-
-  currentWeatherContainer.appendChild(temperature);
-  currentWeatherContainer.appendChild(humidity);
-  currentWeatherContainer.appendChild(windSpeed);
-
-  const lat = weather.coord.lat;
-  const lon = weather.coord.lon;
-  getUvIndex(lat, lon);
-};
+//       if(uvIndex>=0&&uvIndex<=2){
+//         $("uvIndexColor").css("background-color","#3EA72D").css("color","white");
+//       } else if (uvIndex>=3&&uvIndex<=5){
+//         $("uvIndexColor").css("background-color","#FFF300");
+//       } else if (uvIndex>=6&&uvIndex<=7){
+//         $("uvIndexColor").css("background-color","#F18B00");
+//       } else if (uvIndex>=8&&uvIndex<=10){
+//         $("uvIndexColor").css("background-color","#E53210").css("color","white");
+//       } else {
+//         $("uvIndexColor").css("background-color","#B567A4").css("color","white");
+//       };
+//     });
+//   });
+// }
