@@ -16,8 +16,6 @@ THEN I am presented with a 5-day forecast that displays the date, an icon repres
 WHEN I click on a city in the search history
 THEN I am again presented with current and future conditions for that city
 
-<!-- https://user-images.githubusercontent.com/91171412/142749994-16660c0d-80f2-4107-ba7e-324048e65262.mp4 -->
-
 <h2>Resources</h2>
 https://momentjs.com/docs/#/use-it/browser/
 <br>
@@ -28,3 +26,10 @@ https://openweathermap.org/api
 https://stackoverflow.com/questions/70019689/im-having-problems-with-the-openweather-api-geolocation
 <br>
 https://stackoverflow.com/questions/69268475/how-to-fetch-open-weather-map-api
+
+<h2>Future Improvements</h2>
+*Add functionality to allow user to press enter to search OR click on the search glass icon
+<br>
+*Add city, state and country so that user can be confident they are retrieving the weather for the correct locale and country
+<br>
+*Add auto complete function so that user does not have to type the complete city into the search box
