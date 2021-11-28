@@ -3,7 +3,6 @@ const apiKey = "99bddfe7b8090841d791ec8882c057c0";
 var today = moment().format("L");
 var citySearchHistoryList = [];
 
-// function for current condition
 function currentWeather(city) {
   var queryURL = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=imperial&appid=${apiKey}`;
 
@@ -17,13 +16,6 @@ function currentWeather(city) {
     var iconCode = cityWeatherResponse.weather[0].icon;
     var iconURL = `https://openweathermap.org/img/w/${iconCode}.png`;
 
-    // WHEN I view current weather conditions for that city
-    // THEN I am presented with the city name
-    // the date
-    // an icon representation of weather conditions
-    // the temperature
-    // the humidity
-    // the wind speed
     var currentCity = $(`
             <h2 id="currentCity">
                 ${cityWeatherResponse.name} ${today} <img src="${iconURL}" alt="${cityWeatherResponse.weather[0].description}" />
@@ -55,7 +47,7 @@ function currentWeather(city) {
 
       futureWeather(lat, lon);
 
-      // UV Index severity is based on the paramters below0-2 green 3-5 yellow, 6-7 orange, 8-10 red, 11+violet
+      // UV Index severity is based on the following:0-2 green 3-5 yellow, 6-7 orange, 8-10 red, 11+violet
       if (uvIndex >= 0 && uvIndex <= 2) {
         $("#uvIndexColor")
           .css("background-color", "#3EA72D")
@@ -76,3 +68,81 @@ function currentWeather(city) {
     });
   });
 }
+
+function futureWeather(lat, lon) {
+  var futureURL = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&units=imperial&exclude=current,minutely,hourly,alerts&appid=${apiKey}`;
+
+  $.ajax({
+    url: futureURL,
+    method: "GET",
+  }).then(function (futureResponse) {
+    $("#fiveDay").empty();
+
+    for (let i = 1; i < 6; i++) {
+      var cityInfo = {
+        date: futureResponse.daily[i].dt,
+        icon: futureResponse.daily[i].weather[0].icon,
+        temp: futureResponse.daily[i].temp.day,
+        humidity: futureResponse.daily[i].humidity,
+      };
+
+      var currDate = moment.unix(cityInfo.date).format("MM/DD/YYYY");
+      var iconURL = `<img src="https://openweathermap.org/img/w/${cityInfo.icon}.png" alt="${futureResponse.daily[i].weather[0].main}" />`;
+
+      // display the date
+      // icon depicting weather conditions
+      // temperature
+      // humidity
+      var futureCard = $(`
+                <div class="pl-3">
+                    <div class="card pl-3 pt-3 mb-3 bg-primary text-light" style="width: 12rem;>
+                        <div class="card-body">
+                            <h5>${currDate}</h5>
+                            <p>${iconURL}</p>
+                            <p>Temp: ${cityInfo.temp} °F</p>
+                            <p>Humidity: ${cityInfo.humidity}\%</p>
+                        </div>
+                    </div>
+                <div>
+            `);
+
+      $("#fiveDay").append(futureCard);
+    }
+  });
+}
+
+// on click event listener
+$("#searchBtn").on("click", function (event) {
+  event.preventDefault();
+
+  var city = $("#input-city").val().trim();
+  currentWeather(city);
+  if (!citySearchHistoryList.includes(city)) {
+    citySearchHistoryList.push(city);
+    var searchedCity = $(`
+            <li class="list-group-item">${city}</li>
+            `);
+    $("#citySearchHistory").append(searchedCity);
+  }
+
+  localStorage.setItem("city", JSON.stringify(citySearchHistoryList));
+});
+
+// WHEN I click on a city in the search history
+// THEN I am again presented with current and future conditions for that city
+$(document).on("click", ".list-group-item", function () {
+  var listCity = $(this).text();
+  currentWeather(listCity);
+});
+
+// WHEN I open the weather dashboard
+// THEN I am presented with the last searched city forecast
+$(document).ready(function () {
+  var citySearchHistoryArr = JSON.parse(localStorage.getItem("city"));
+
+  if (citySearchHistoryArr !== null) {
+    var lastSearchedIndex = citySearchHistoryArr.length - 1;
+    var lastSearchedCity = citySearchHistoryArr[lastSearchedIndex];
+    currentWeather(lastSearchedCity);
+  }
+});
