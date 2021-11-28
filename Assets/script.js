@@ -12,7 +12,6 @@ function currentWeather(city) {
   }).then(function (cityWeatherResponse) {
     $("#weatherContainer").css("display", "block");
     $("#currentCityDetail").empty();
-
     var iconCode = cityWeatherResponse.weather[0].icon;
     var iconURL = `https://openweathermap.org/img/w/${iconCode}.png`;
 

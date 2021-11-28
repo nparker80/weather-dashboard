@@ -2,7 +2,7 @@
 
 I created a dashboard so that travelers can easily check the weather for a given city. This app will run in the browser and feature dynamically updated HTML and CSS powered by jQuery. OpenWeather is the third-party app I utilized for the API calls.
 
-## Acceptance Criteria
+##Acceptance Criteria
 
 GIVEN a weather dashboard with form inputs
 WHEN I search for a city
