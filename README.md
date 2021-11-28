@@ -30,6 +30,10 @@ https://stackoverflow.com/questions/69268475/how-to-fetch-open-weather-map-api
 <h2>Future Improvements</h2>
 *Add functionality to allow user to press enter to search OR click on the search glass icon
 <br>
-*Add city, state and country so that user can be confident they are retrieving the weather for the correct locale and country
-<br>
 *Add auto complete function so that user does not have to type the complete city into the search box
+<br>
+*City name should clear after user completes a search
+<br>
+*If city name is not recognized, a modal should appear
+<br>
+*Add city, state and country so that user can be confident they are retrieving the weather for the correct locale and country
