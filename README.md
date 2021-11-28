@@ -49,6 +49,8 @@ https://stackoverflow.com/questions/69268475/how-to-fetch-open-weather-map-api
 <br>
 *City name should clear after user completes a search
 <br>
+*Eliminate decimal on Temperature and Wind Speed
+<br>
 *If city name is not recognized, a modal should appear
 <br>
 *Add city, state and country so that user can be confident they are retrieving the weather for the correct locale and country
