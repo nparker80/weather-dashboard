@@ -56,3 +56,7 @@ li {
   background-color: #b3a9a0;
   color: #0f0f0f !important;
 }
+
+.list-group-item {
+  cursor: pointer;
+}
