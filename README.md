@@ -2,7 +2,7 @@
 
 I created a dashboard so that travelers can easily check the weather for a given city. This app will run in the browser and feature dynamically updated HTML and CSS powered by jQuery. OpenWeather is the third-party app I utilized for the API calls.
 
-##Acceptance Criteria
+## Acceptance Criteria
 
 GIVEN a weather dashboard with form inputs
 WHEN I search for a city
@@ -15,6 +15,10 @@ WHEN I view future weather conditions for that city
 THEN I am presented with a 5-day forecast that displays the date, an icon representation of weather conditions, the temperature, the wind speed, and the humidity
 WHEN I click on a city in the search history
 THEN I am again presented with current and future conditions for that city
+
+
+https://user-images.githubusercontent.com/91171412/143778630-001a09e8-af97-41dd-875e-018b9a76439d.mp4
+
 
 <h2>Resources</h2>
 https://momentjs.com/docs/#/use-it/browser/
