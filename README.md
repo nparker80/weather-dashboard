@@ -30,6 +30,16 @@ THEN I am again presented with current and future conditions for that city
 Link to deployed app: https://nparker80.github.io/weather-dashboard/
 
 https://user-images.githubusercontent.com/91171412/143778630-001a09e8-af97-41dd-875e-018b9a76439d.mp4
+<h2>Technologies Used</h2>
+*HTML5
+<br>
+*CSS
+<br>
+*jQuery
+<br>
+*Open Weather API
+<br>
+*Moments
 
 <h2>Resources</h2>
 https://momentjs.com/docs/#/use-it/browser/
